@@ -1,0 +1,101 @@
+{
+	"menu": {
+		"border": "Border",
+		"borderRadius": "Border Radius",
+		"boxShadow": "Box Shadow",
+		"background": "Background",
+		"textShadow": "Text-Shadow",
+		"gradient": "Gradient",
+		"matrix": "Matrix Transform",
+		"transition": "Transition",
+		"animation": "CSS Animation",
+		"filter": "Image Filter"
+	},
+	"property": {
+		"border": {
+			"BorderWidth": "20",
+			"BorderStyle": "solid",
+			"BorderColor": "#2eb9ce"
+		},
+		"Individual": {
+			"borderTop": {
+				"BorderWidth": "20",
+				"BorderStyle": "solid",
+				"BorderColor": "#2eb9ce"
+			},
+			"borderRight": {
+				"BorderWidth": "20",
+				"BorderStyle": "solid",
+				"BorderColor": "#2eb9ce"
+			},
+			"borderBottom": {
+				"BorderWidth": "20",
+				"BorderStyle": "solid",
+				"BorderColor": "#2eb9ce"
+			},
+			"borderLeft": {
+				"BorderWidth": "20",
+				"BorderStyle": "solid",
+				"BorderColor": "#2eb9ce"
+			}
+		},
+		"borderRadius": {
+			"allRadius": "50",
+			"topLeft": "50",
+			"topRight": "50",
+			"bottomRight": "50",
+			"bottomLeft": "50"
+		},
+		"shadows": {
+			"boxShadow": [{
+				"shadowType": "",
+				"xPos": "0",
+				"yPos": "0",
+				"shadowFade": "50",
+				"shadowSpread": "30",
+				"shadowColor": "#ff0000"
+			}]
+		},
+
+		"background": {
+                "backgroundColor": "#ff0000",
+                "backgroundImage": "none",
+                "backgroundRepeat": "no-repeat",
+                "positionX": "0",
+                "positionY": "0"
+		},
+		"textShadow": {
+			"text": "Text Shadow",
+			"textColor": "#5dce05",
+			"shadowColor": "#fdff00",
+			"xyPos": ["0", "5"],
+			"shadowBlur": "10",
+			"more": {}
+		},
+		"gradient": {
+			"orientation": "linear",
+			"degree": "90",
+			"startColor": ["#ff0000", "0"],
+			"endColor": ["#00ff00", "80"],
+			"moreStopper": ""
+		},
+		"matrixTransform": {
+			"scaleXY": ["1", "1"],
+			"rotate": "0",
+			"skewXY": ["0", "0"],
+			"translateXY": ["0", "0"]
+		},
+        "filter": {
+            "greyscale": "50",
+            "blur": "5",
+            "sepia": "1",
+            "saturate": "0.25",
+            "opacity": "1",
+            "brightness": "100",
+            "contrast": "100",
+            "hueRotate": "320",
+            "invert": "100"
+        }
+
+	}
+}

@@ -1,0 +1,577 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CSS3 Generator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12  text-center">
+            <h1>CSS Triangle Generator</h1>
+        </div>
+    </div>
+    <div class="generator-container">
+        <div class="all-container">
+            <div class="both-container">
+                <div class="property-container">
+                    <div class="menu" id="menu"> </div>
+                </div>
+                <div class="display-container">
+                    <div id="display" class="preview-bg black-bg">
+                        <div id="preview-box" class="preview-box"></div>
+                    </div>
+                    <div class="prev-BgSelector"> <span class="black-bg"></span> <span class="skyblue-bg"></span> <span class="white-bg"></span> <span class="transparent-bg"></span> </div>
+                    <!--
+                         <span id="boxoption" style="display: inline;float: right;">
+                             <span id="save" title="save current state into URL">save</span>&nbsp;|&nbsp;<span id="reset" title="reset the preview box">reset</span>
+                         </span>
+            --> 
+                </div>
+            </div>
+            <div class="code-container">
+                <div class="codetab"> <span>Code</span> </div>
+                <div id="code"> </div>
+            </div>
+        </div>
+        <div class="value-container">
+            <div class="formpanel" id="formpanel"> </div>
+        </div>
+    </div>
+</div>
+<script src="jquery-2.1.4.min.js"></script> 
+<script src="jscolor.js"></script> 
+<script>
+$(document).ready(function(){
+(function(){
+    $.ajax({
+        url: "data.json",
+        cache: false,
+        type: "GET",
+        dataType: "JSON",
+        success: function(data){
+            localStorage.setItem('jsonData', JSON.stringify(data));
+            object.showNav();
+            object.showTemplateByNav('border');
+            $('#border').addClass('selected');
+             object.rangeSlider();
+        } 
+    });
+}());
+var object = {
+  showNav : function(){
+    var str = '<ul class="menucont">';
+    var data = JSON.parse(object.getSession('jsonData'));
+    $.each(data.menu, function(k,v){
+         str +='<li class="item" id="'+k+'">'+v+'</li>';
+    });
+    str += '</ul>';
+    $('#menu').html(str);
+  },
+
+  showTemplateByNav: function(id){
+      var panel = $('#formpanel');
+      panel.html('');
+      var data = JSON.parse(object.getSession('jsonData'));
+        switch (id){
+            case 'border':
+            case 'borderTop':
+            case 'borderRight':
+            case 'borderBottom':
+            case 'borderLeft': {
+                var template = `<h2>Border</h2>`;
+                var jsonData = data.property[id];
+                    template += `<div><label>Border Width</label><div class="group"><input type="text" class="text" size="2" maxlength="2" value="${jsonData.BorderWidth}" data-type="BorderWidth" data-id="border"> px<div class="range-slider"><input class="range-slider__range" type="range" value="20" min="0" max="100"></div></div></div><div><label>Border Style</label><select data-type="BorderStyle" data-id="border">${object.add({"solid":"solid","dotted":"dotted","dashed":"dashed","double":"double","hidden":"hidden","ridge":"ridge","inset":"inset","outset":"outset"})}</select></div>
+                        <div><label>Border Color</label><input value="${jsonData.BorderColor}" class="jscolor {width:101, padding:0, shadow:false,
+    borderWidth:0, backgroundColor:'transparent', insetColor:'#000'}" data-type="BorderColor" data-id="border"></div>
+                        <div style="border-bottom: 1px solid #9E9E9E">&nbsp;</div><br>
+                        <div><label>Individual</label><input type="checkbox" data-type="Individual" data-id="border"></div>
+                        <div id="bordermore" style="display:none;">
+                        <div><div><label>Border Top</label></div><div class="group"><input type="text" class="text" size="2" maxlength="2" value="10" data-type="BorderWidth" data-id="borderTop"><div class="range-slider"><input class="range-slider__range" type="range" value="10" min="0" max="100"></div></div>&nbsp;px&nbsp;&nbsp;<select data-type="BorderStyle" data-id="borderTop">${object.add({"solid":"solid","dotted":"dotted","dashed":"dashed","double":"double","hidden":"hidden","ridge":"ridge","inset":"inset","outset":"outset"})}</select>&nbsp;&nbsp;<input value="${jsonData.BorderColor}" class="jscolor {width:101, padding:0, shadow:false,
+    borderWidth:0, backgroundColor:'transparent', insetColor:'#000'}" data-type="BorderColor" data-id="borderTop"></div>
+                        <div><div><label>Border Right</label></div><div class="group"><input type="text" class="text" size="2" maxlength="2" value="10" data-type="BorderWidth" data-id="borderRight"><div class="range-slider"><input class="range-slider__range" type="range" value="10" min="0" max="100"></div></div>&nbsp;px&nbsp;&nbsp;<select data-type="BorderStyle" data-id="borderRight">${object.add({"solid":"solid","dotted":"dotted","dashed":"dashed","double":"double","hidden":"hidden","ridge":"ridge","inset":"inset","outset":"outset"})}</select>&nbsp;&nbsp;<input value="${jsonData.BorderColor}" class="jscolor {width:101, padding:0, shadow:false,
+    borderWidth:0, backgroundColor:'transparent', insetColor:'#000'}" data-type="BorderColor" data-id="borderRight"></div>
+                        <div><div><label>Border Bottom</label></div><input type="text" size="3" maxlength="3" value="10" data-type="BorderWidth" data-id="borderBottom">&nbsp;px&nbsp;&nbsp;<select data-type="BorderStyle" data-id="borderBottom">${object.add({"solid":"solid","dotted":"dotted","dashed":"dashed","double":"double","hidden":"hidden","ridge":"ridge","inset":"inset","outset":"outset"})}</select>&nbsp;&nbsp;<input value="${jsonData.BorderColor}" class="jscolor {width:101, padding:0, shadow:false,
+    borderWidth:0, backgroundColor:'transparent', insetColor:'#000'}" data-type="BorderColor" data-id="borderBottom"></div>
+                        <div><div><label>Border Left</label></div><input type="text" size="3" maxlength="3" value="10" data-type="BorderWidth" data-id="borderLeft">&nbsp;px&nbsp;&nbsp;<select data-type="BorderStyle" data-id="borderLeft">${object.add({"solid":"solid","dotted":"dotted","dashed":"dashed","double":"double","hidden":"hidden","ridge":"ridge","inset":"inset","outset":"outset"})}</select>&nbsp;&nbsp;<input value="${jsonData.BorderColor}" class="jscolor {width:101, padding:0, shadow:false,
+    borderWidth:0, backgroundColor:'transparent', insetColor:'#000'}" data-type="BorderColor" data-id="borderLeft"></div>`;
+                   panel.html(template);
+                   object.colorPicker();
+                   object.showDispCodeByNav(jsonData, id);
+                break;
+            }
+            case 'borderRadius':{
+                var template = `<h2>Border Radius</h2>`;
+                var jsonData = data.property[id];
+                    template += `<div><label>All Radius</label><input type="text" id="radiusall" size="3" maxlength="3" value="${jsonData.allRadius}"  data-type="allRadius" data-id="borderRadius"> px</div>
+                        <div style="border-bottom: 1px solid #9E9E9E">&nbsp;</div><br>
+                        <div><label>Top Left</label><input type="text" size="3" maxlength="3" value="${jsonData.topLeft}" data-type="topLeft" data-id="borderRadius"> px</div>
+                        <div><label>Top Right</label><input type="text" size="3" maxlength="3" value="${jsonData.topRight}" data-type="topRight" data-id="borderRadius"> px</div>
+                        <div><label>Bottom Right</label><input type="text" size="3" maxlength="3" value="${jsonData.bottomRight}" data-type="bottomRight" data-id="borderRadius"> px</div>
+                        <div><label>Bottom Left</label><input type="text" size="3" maxlength="3" value="${jsonData.bottomLeft}" data-type="bottomLeft" data-id="borderRadius"> px</div>`;
+                   panel.html(template);
+                   object.showDispCodeByNav(jsonData, id);
+                break;
+            }
+            case 'boxShadow':{
+                var jsonData = data.property['shadows'][id];
+                var template = `<h2>Box Shadow</h2>`;
+                $.each(jsonData, function(k,v){
+                    template += `<div class="shadow" data-id="${k}"><div><label>Shadow Type</label><select data-type="shadowType" data-id="boxShadow">${object.add({"outset":"Outset","inset":"Inset"})}</select></div>
+                                <div><label>XY position</label><input type="text" size="3" value="${v.xPos}" data-type="xPos" data-id="boxShadow"> <input type="text" size="3" value="${v.yPos}" data-type="yPos" data-id="boxShadow"></div>
+                                <div><label>Shadow Fade</label><input type="text" size="3" value="${v.shadowFade}" data-type="shadowFade" data-id="boxShadow"></div><div><label>Shadow Spread</label><input type="text" size="3" value="${v.shadowSpread}" data-type="shadowSpread" data-id="boxShadow"></div><div><label>Shadow Color</label><input value="${v.shadowColor}" class="jscolor {width:101, padding:0, shadow:false,
+    borderWidth:0, backgroundColor:'transparent', insetColor:'#000'}" data-type="shadowColor" data-id="boxShadow"></div><div><span id="remove" data-id="${k}">Remove</span></div><div style="border-bottom: 1px solid #9E9E9E"></div><div><span id="shadowmore">Add more [+]</span></div></div>`;
+                });             
+                   panel.html(template);
+                   object.colorPicker();
+                   object.showDispCodeByNav(jsonData, id);
+                break;
+            }
+            case 'background':{
+                var jsonData = data.property[id];
+                var template = `<h2>Background</h2>`;
+                    template += `<div><div><label>Background Color</label><input value="${jsonData.backgroundColor}" class="jscolor {width:101, padding:0, shadow:false, borderWidth:0, backgroundColor:'transparent', insetColor:'#000'}" data-type="backgroundColor" data-id="background"></div>
+                    <div><label>Background Image</label><input type="checkbox" id="bg-image" data-type="backgroundImage" data-id="background"></div><div id="more-bg" style="display:none;"><div><label>Background Repeat</label><select data-type="backgroundRepeat" data-id="background">${object.add({noRepeat:"no-repeat",repeatX: "repeat-x",repeatY: "repeat-y",repeat:"repeat"})}</select></div><div>Background Position<br/><input type="radio" name="position" checked value="keyword" data-type="background"> Keyword<br/><input type="radio" name="position" value="percent" data-type="background"> % (percent)<br/><input type="radio" name="position" value="pixel"  data-type="background"> px (pixel)<br/></div><div id="positionChanges"><div><label>horizontal - x</label><select data-type="positionX" data-id="background">${object.add({left:"left",center: "center",right: "right"})}</select></div><div><label>vertical - y</label><select data-type="positionY" data-id="background">${object.add({top:"top",center: "center",bottom: "bottom"})}</select></div></div></div></div>`;
+                   panel.html(template);
+                   object.colorPicker();
+                   object.showDispCodeByNav(jsonData, id);
+                break;
+            }
+            case 'filter':{
+                var jsonData = data.property[id];
+                var template = `<h2>Image Filter</h2>`;
+                    template += `<div><div><input type="checkbox" name="filterIamge" checked data-type="greyscale" data-id="filter"><label>Greyscale</label><input type="text" size="3" class="values" value="${jsonData.greyscale}" data-type="greyscale" data-id="filter"></div><div><input type="checkbox" name="filterIamge" data-type="blur" data-id="filter"><label>Blur</label><input disabled type="text" size="3" value="${jsonData.blur}" class="values" data-type="blur" data-id="filter"></div><div><input name="filterIamge" type="checkbox" data-type="sepia" data-id="filter"><label>Sepia</label><input disabled type="text" size="3" value="${jsonData.sepia}" class="values" data-type="sepia" data-id="filter"></div><div><input type="checkbox" name="filterIamge" data-type="saturate" data-id="filter"><label>Saturate</label><input disabled type="text" size="3" value="${jsonData.saturate}" class="values" data-type="saturate" data-id="filter"></div><div><input type="checkbox" name="filterIamge" data-type="opacity" data-id="filter"><label>Opacity</label><input disabled type="text" size="3" value="${jsonData.opacity}" class="values" data-type="opacity" data-id="filter"></div><div><input type="checkbox" name="filterIamge" data-type="brightness" data-id="filter"><label>Brightness</label><input disabled type="text" size="3" value="${jsonData.brightness}" class="values" data-type="brightness" data-id="filter"></div><div><input type="checkbox" name="filterIamge" data-type="contrast" data-id="filter"><label>Contrast</label><input disabled type="text" size="3" value="${jsonData.contrast}" class="values" data-type="contrast" data-id="filter"></div><div><input type="checkbox" name="filterIamge" data-type="hueRotate" data-id="filter"><label>Hue Rotate</label><input disabled type="text" size="3" value="${jsonData.hueRotate}" class="values" data-type="hueRotate" data-id="filter"></div><div><input type="checkbox" name="filterIamge" data-type="invert" data-id="filter"><label>Invert</label><input disabled type="text" size="3" value="${jsonData.invert}" class="values" data-type="invert" data-id="filter"></div></div>`;
+                   panel.html(template);
+                   object.showDispCodeByNav(jsonData, id);
+                break;
+            }
+        }
+    },
+  add: function(obj){
+      var str = "";
+      for(var i in obj){
+        str += `<option value="${obj[i]}">${obj[i]}</option>`;
+      }
+      return str;
+  },
+  showDispCodeByNav: function(data, property){
+      var code = $('#code');
+      var preview = $('#preview-box');
+      preview.removeAttr('style');
+      code.html('');
+      switch(property){
+          case 'border':
+          case 'borderTop':
+          case 'borderRight':
+          case 'borderBottom':
+          case 'borderLeft':
+              {
+                var template = "";
+                if(property == "border"){
+                      template = `<div><span class="r">border: </span>${data.BorderWidth}px ${data.BorderStyle} ${data.BorderColor};</div>
+                              <div style="border-bottom: 1px solid #9E9E9E">&nbsp;</div><br>
+                              <div><span class="r">border-width: </span>${data.BorderWidth}px;</div>
+                              <div><span class="r">border-style: </span>${data.BorderStyle};</div>
+                              <div><span class="r">border-color: </span>${data.BorderColor};</div>`;
+                    preview.attr('style', `border:${data.BorderWidth}px ${data.BorderStyle} ${data.BorderColor}`);
+                }
+                
+                if(property == "borderTop"){
+                      template = `<div><span class="r">border-top: </span>${data[property].BorderWidth}px ${data[property].BorderStyle} ${data[property].BorderColor};</div>
+                                  <div><span class="r">border-right: </span>${data['borderRight'].BorderWidth}px ${data['borderRight'].BorderStyle} ${data['borderRight'].BorderColor};</div>
+                                  <div><span class="r">border-bottom: </span>${data['borderBottom'].BorderWidth}px ${data['borderBottom'].BorderStyle} ${data['borderBottom'].BorderColor};</div>
+                                  <div><span class="r">border-left: </span>${data['borderLeft'].BorderWidth}px ${data['borderLeft'].BorderStyle} ${data['borderLeft'].BorderColor};</div>
+                              <div style="border-bottom: 1px solid #9E9E9E">&nbsp;</div><br>
+                              <div><span class="r">border-width: </span> ${data[property].BorderWidth}px ${data['borderRight'].BorderWidth}px ${data['borderBottom'].BorderWidth}px ${data['borderLeft'].BorderWidth}px;</div>
+                              <div><span class="r">border-style: </span>${data[property].BorderStyle} ${data['borderRight'].BorderStyle} ${data['borderBottom'].BorderStyle} ${data['borderLeft'].BorderStyle};</div>
+                              <div><span class="r">border-color: </span>${data[property].BorderColor} ${data['borderRight'].BorderColor} ${data['borderBottom'].BorderColor} ${data['borderLeft'].BorderColor};</div>`;
+                    preview.attr('style', `border-width: ${data[property].BorderWidth}px ${data['borderRight'].BorderWidth}px ${data['borderBottom'].BorderWidth}px ${data['borderLeft'].BorderWidth}px;border-style: ${data[property].BorderStyle} ${data['borderRight'].BorderStyle} ${data['borderBottom'].BorderStyle} ${data['borderLeft'].BorderStyle};border-color: ${data[property].BorderColor} ${data['borderRight'].BorderColor} ${data['borderBottom'].BorderColor} ${data['borderLeft'].BorderColor};`);
+                }
+                  
+                if(property == "borderRight"){
+                      template = `<div><span class="r">border-top: </span>${data['borderTop'].BorderWidth}px ${data['borderTop'].BorderStyle} ${data['borderTop'].BorderColor};</div>
+                                  <div><span class="r">border-right: </span>${data[property].BorderWidth}px ${data[property].BorderStyle} ${data[property].BorderColor};</div>
+                                  <div><span class="r">border-bottom: </span>${data['borderBottom'].BorderWidth}px ${data['borderBottom'].BorderStyle} ${data['borderBottom'].BorderColor};</div>
+                                  <div><span class="r">border-left: </span>${data['borderLeft'].BorderWidth}px ${data['borderLeft'].BorderStyle} ${data['borderLeft'].BorderColor};</div>
+                              <div style="border-bottom: 1px solid #9E9E9E">&nbsp;</div><br>
+                              <div><span class="r">border-width: </span> ${data['borderTop'].BorderWidth}px ${data[property].BorderWidth}px ${data['borderBottom'].BorderWidth}px ${data['borderLeft'].BorderWidth}px;</div>
+                              <div><span class="r">border-style: </span>${data['borderTop'].BorderStyle} ${data[property].BorderStyle} ${data['borderBottom'].BorderStyle} ${data['borderLeft'].BorderStyle};</div>
+                              <div><span class="r">border-color: </span>${data['borderTop'].BorderColor} ${data[property].BorderColor} ${data['borderBottom'].BorderColor} ${data['borderLeft'].BorderColor};</div>`;
+                    preview.attr('style', `border-width: ${data['borderTop'].BorderWidth}px ${data[property].BorderWidth}px ${data['borderBottom'].BorderWidth}px ${data['borderLeft'].BorderWidth}px;border-style: ${data['borderTop'].BorderStyle} ${data[property].BorderStyle} ${data['borderBottom'].BorderStyle} ${data['borderLeft'].BorderStyle};border-color: ${data['borderTop'].BorderColor} ${data[property].BorderColor} ${data['borderBottom'].BorderColor} ${data['borderLeft'].BorderColor};`);
+                }
+                  
+                if(property == "borderBottom"){
+                      template = `<div><span class="r">border-top: </span>${data['borderTop'].BorderWidth}px ${data['borderTop'].BorderStyle} ${data['borderTop'].BorderColor};</div>
+                                  <div><span class="r">border-right: </span>${data['borderRight'].BorderWidth}px ${data['borderRight'].BorderStyle} ${data['borderRight'].BorderColor};</div>
+                                  <div><span class="r">border-bottom: </span>${data[property].BorderWidth}px ${data[property].BorderStyle} ${data[property].BorderColor};</div>
+                                  <div><span class="r">border-left: </span>${data['borderLeft'].BorderWidth}px ${data['borderLeft'].BorderStyle} ${data['borderLeft'].BorderColor};</div>
+                              <div style="border-bottom: 1px solid #9E9E9E">&nbsp;</div><br>
+                              <div><span class="r">border-width: </span> ${data['borderTop'].BorderWidth}px ${data['borderRight'].BorderWidth}px ${data[property].BorderWidth}px ${data['borderLeft'].BorderWidth}px;</div>
+                              <div><span class="r">border-style: </span>${data['borderTop'].BorderStyle} ${data['borderRight'].BorderStyle} ${data[property].BorderStyle} ${data['borderLeft'].BorderStyle};</div>
+                              <div><span class="r">border-color: </span>${data['borderTop'].BorderColor} ${data['borderRight'].BorderColor} ${data[property].BorderColor} ${data['borderLeft'].BorderColor};</div>`;
+                    preview.attr('style', `border-width: ${data['borderTop'].BorderWidth}px ${data['borderRight'].BorderWidth}px ${data[property].BorderWidth}px ${data['borderLeft'].BorderWidth}px;border-style: ${data['borderTop'].BorderStyle} ${data['borderRight'].BorderStyle} ${data[property].BorderStyle} ${data['borderLeft'].BorderStyle};border-color: ${data['borderTop'].BorderColor} ${data['borderRight'].BorderColor} ${data[property].BorderColor} ${data['borderLeft'].BorderColor};`);
+                }
+                
+                if(property == "borderLeft"){
+                      template = `<div><span class="r">border-top: </span>${data['borderTop'].BorderWidth}px ${data['borderTop'].BorderStyle} ${data['borderTop'].BorderColor};</div>
+                                  <div><span class="r">border-right: </span>${data['borderRight'].BorderWidth}px ${data['borderRight'].BorderStyle} ${data['borderRight'].BorderColor};</div>
+                                  <div><span class="r">border-bottom: </span>${data['borderBottom'].BorderWidth}px ${data['borderBottom'].BorderStyle} ${data['borderBottom'].BorderColor};</div>
+                                  <div><span class="r">border-left: </span>${data[property].BorderWidth}px ${data[property].BorderStyle} ${data[property].BorderColor};</div>
+                              <div style="border-bottom: 1px solid #9E9E9E">&nbsp;</div><br>
+                              <div><span class="r">border-width: </span> ${data['borderTop'].BorderWidth}px ${data['borderRight'].BorderWidth}px ${data['borderBottom'].BorderWidth}px ${data[property].BorderWidth}px;</div>
+                              <div><span class="r">border-style: </span>${data['borderTop'].BorderStyle} ${data['borderRight'].BorderStyle} ${data['borderBottom'].BorderStyle} ${data[property].BorderStyle};</div>
+                              <div><span class="r">border-color: </span>${data['borderTop'].BorderColor} ${data['borderRight'].BorderColor} ${data['borderBottom'].BorderColor} ${data[property].BorderColor};</div>`;
+                    preview.attr('style', `border-width: ${data['borderTop'].BorderWidth}px ${data['borderRight'].BorderWidth}px ${data['borderBottom'].BorderWidth}px ${data[property].BorderWidth}px;border-style: ${data['borderTop'].BorderStyle} ${data['borderRight'].BorderStyle} ${data['borderBottom'].BorderStyle} ${data[property].BorderStyle};border-color: ${data['borderTop'].BorderColor} ${data['borderRight'].BorderColor} ${data['borderBottom'].BorderColor} ${data[property].BorderColor};`);
+                }
+              code.html(template);
+              break;
+          }
+          case 'borderRadius':{
+              var template = `<div><span class="r">border-radius:</span> ${data.topLeft}px ${data.topRight}px ${data.bottomRight}px ${data.bottomLeft}px;</div>
+                                      <div><span class="r">-moz-border-radius:</span> ${data.topLeft}px ${data.topRight}px ${data.bottomRight}px ${data.bottomLeft}px;</div>
+                                      <div><span class="r">-webkit-border-radius:</span> ${data.topLeft}px ${data.topRight}px ${data.bottomRight}px ${data.bottomLeft}px;</div>`;
+              preview.attr('style', `border-radius:${data.topLeft}px ${data.topRight}px ${data.bottomRight}px ${data.bottomLeft}px`);
+              code.html(template);
+              break;
+          }
+          case 'boxShadow':{
+              var str = '';
+              var css = '';
+              $.each(data, function(k,v){
+                  str += `${v.xPos}px ${v.yPos}px ${v.shadowFade}px ${v.shadowSpread}px ${v.shadowColor} ${v.shadowType},`;
+                  css += `${str}`;
+              });
+              var res = css.slice(0, css.lastIndexOf(','));
+              var template = `<div><span class="r">-webkit-box-shadow:</span> ${res};</div>
+                                      <div><span class="r">-moz-box-shadow:</span> ${res};</div>
+                                      <div><span class="r">box-shadow:</span> ${res};</div>`;
+              preview.attr('style', `box-shadow: ${res};`);
+              code.html(template);
+              break;
+          }
+          case 'background':{
+              var styleImage = '';
+              if(`${data.backgroundImage}` === 'none'){
+                  styleImage += `${data.backgroundImage}`;
+              }else{
+                  styleImage += `url(${data.backgroundImage})`;
+              }
+              var template = `<div><span class="r">background:</span> ${styleImage} ${data.backgroundRepeat} ${data.positionX} ${data.positionY}  ${data.backgroundColor};</div>
+                              <div style="border-bottom: 1px solid #9E9E9E">&nbsp;</div><br>
+                                      <div><span class="r">background-color:</span> ${data.backgroundColor};</div>
+                                      <div><span class="r">background-image:</span> ${styleImage};</div>
+                                      <div><span class="r">background-position:</span> ${data.positionX} ${data.positionY};</div>
+                                      <div><span class="r">background-repeat:</span> ${data.backgroundRepeat};</div>
+                                      `;
+              preview.attr('style', `background: ${styleImage} ${data.backgroundRepeat} ${data.positionX} ${data.positionY} ${data.backgroundColor};`);
+              code.html(template);
+              break;
+          }
+          case 'filter':{
+              var selectedInput = $('input[name="filterIamge"]');
+              var str = '';
+              var obj = {};
+              $.each(selectedInput, function(){
+                    if(!$(this).siblings('input.values').is(':disabled')){
+                      var value = $(this).siblings('input.values').val();
+                      var key = $(this).siblings('input.values').data('type');
+                      obj[key]= value;   
+                    }
+              });
+              $.each(obj, function(k,v){
+                  switch(k){
+                    case 'greyscale':{
+                        str += 'grayscale('+v+'%) ';
+                        break;
+                    }
+                    case 'blur':{
+                        str += 'blur('+v+'px) ';
+                        break;
+                    }
+                    case 'sepia':{
+                        str += 'sepia('+v+') ';
+                        break;
+                    }
+                    case 'saturate':{
+                        str += 'saturate('+v+') ';
+                        break;
+                    }
+                    case 'opacity':{
+                        str += 'opacity('+v+') ';
+                        break;
+                    }
+                    case 'brightness':{
+                        str += 'brightness('+v+'%) ';
+                        break;
+                    }
+                    case 'contrast':{
+                        str += 'contrast('+v+'%) ';
+                        break;
+                    }
+                    case 'hueRotate':{
+                        str += 'hue-rotate('+v+'deg) ';
+                        break;
+                    }
+                    case 'invert':{
+                        str += 'invert('+v+'%) ';
+                        break;
+                    }
+                  }
+              });
+              console.log(str);
+              preview.find('previewFilter').removeAttr('style');
+              var template = `<div><span class="r">filter:</span> ${str};</div>
+                                      <div><span class="r">-webkit-filter:</span> ${str};</div>`;
+              preview.find('.previewFilter').attr('style', `filter: ${str}`);
+              code.html(template);
+              break;
+          }
+      }
+      
+  },
+    
+    setSession : function(key, value){
+        localStorage.setItem(key,value);
+    },
+    
+    getSession : function(key){
+        return localStorage.getItem(key);
+    },
+    
+    cleanSession : function(key){
+        localStorage.removeItem(key);
+    },
+  
+    bgChange: function(classValue){
+        var disp = $('#display');
+        disp.removeClass();
+        disp.addClass(`preview-bg ${classValue}`);
+    },
+    colorPicker: function(){
+         for(var i = 0; i <= $('.jscolor').length-1; i++) {
+            new jscolor($('.jscolor')[i]);
+        }
+    },
+    rangeSlider: function(){
+        var slider = $('.range-slider'),
+        range = $('.range-slider__range'),
+        value = $('.text');
+//          slider.each(function(){
+//            value.each(function(){
+//              var textVal = $(this).next().find('.range-slider__range').attr('value');
+//              $(this).val(textVal);
+//            });
+//            range.on('input', function(){
+//              $(this).parents('.range-slider').prev().val(this.value);
+//                console.log($(this).parents('.range-slider').prev().val(this.value));
+//              value.trigger('input');
+//            });
+              
+             range.on('input', function(){
+              $(this).parents('.range-slider').siblings().val(this.value);
+              $(this).parents('.range-slider').siblings().trigger('input');
+            });
+        
+        
+        
+        
+        
+        
+    }
+ 
+}
+
+
+$('body').on('input', '.text', function(){
+    $(this).siblings().children().val($(this).val());
+});
+$('body').on('click', '.menucont .item', function(){
+   var id = $(this).attr('id');
+    $(this).addClass('selected');
+    $(this).siblings().removeClass('selected');
+    if(id == 'filter'){
+        $('#preview-box').html('<img class="preview-filter previewFilter" src="rose.jpg"/>');
+    }else if(id == 'textShadow'){
+        $('#preview-box').addClass('preview-box-text');
+    }
+    else{
+        $('#preview-box').html('');
+        $('#preview-box').removeClass('preview-box-text');
+    }
+    object.showTemplateByNav(id);
+});
+$('body').on('click', '.prev-BgSelector span', function(){
+    var classAttr = $(this).attr('class');
+    object.bgChange(classAttr);
+});
+$('body').on('change input', '.jscolor', function(){
+    var type = $(this).data('type');
+    var id = $(this).data('id');
+    var colorCode = '#' + $(this).val();
+    var dataId = $(this).parents('.shadow').data('id');
+    var data = JSON.parse(object.getSession('jsonData'));
+    if(id == "borderTop" || id == "borderRight"  || id == "borderBottom" || id == "borderLeft"){
+        data.property['Individual'][id][type] = colorCode;
+        object.setSession('jsonData', JSON.stringify(data));
+        object.showDispCodeByNav(data.property['Individual'], id);
+        return false;
+    }
+    if(id == "boxShadow"){
+        data.property['shadows'][id][dataId][type] = colorCode;
+        object.setSession('jsonData', JSON.stringify(data));
+        object.showDispCodeByNav(data.property['shadows'][id], id);
+        return false;
+    }
+    data.property[id][type] = colorCode;
+    object.setSession('jsonData', JSON.stringify(data));
+    object.showDispCodeByNav(data.property[id], id);    
+});
+$('body').on('input', 'input[type="text"], input[type="checkbox"], input[type="radio"]', function(){
+    var type = $(this).data('type');
+    var id = $(this).data('id');
+    var px = $(this).val();
+    var unit = $(this).data('unit');
+    var dataId = $(this).parents('.shadow').data('id');
+    var data = JSON.parse(object.getSession('jsonData'));
+    if($('[data-type="Individual"]').is(':checked')){
+        $('#bordermore').css('display','block');
+    }else{
+        $('#bordermore').css('display','none');
+    }
+    if(id == "borderTop" || id == "borderRight"  || id == "borderBottom" || id == "borderLeft"){
+        data.property['Individual'][id][type] = px;
+        object.setSession('jsonData', JSON.stringify(data));
+        object.showDispCodeByNav(data.property['Individual'], id);
+        return false;
+    }
+    if(id == "boxShadow"){
+        data.property['shadows'][id][dataId][type] = px;
+        object.setSession('jsonData', JSON.stringify(data));
+        object.showDispCodeByNav(data.property['shadows'][id], id);
+        return false;
+    }
+    if(type == "allRadius"){
+        data.property[id].topLeft = px;data.property[id].topRight = px;data.property[id].bottomRight = px;data.property[id].bottomLeft = px;
+        $('[data-type="topLeft"]').val(px);$('[data-type="topRight"]').val(px);$('[data-type="bottomRight"]').val(px);$('[data-type="bottomLeft"]').val(px);
+    }
+     if(type === 'backgroundImage'){
+        if($('[data-type="backgroundImage"]').is(':checked')){
+            $('#more-bg').css('display','block');
+            data.property[id][type] = 'img.jpg';
+            data.property[id]['positionX'] = 'left';
+            data.property[id]['positionY'] = 'top';
+            object.setSession('jsonData', JSON.stringify(data));
+            object.showDispCodeByNav(data.property[id], id);
+            return;
+        }else{
+            $('#more-bg').css('display','none');
+            data.property[id][type] = 'none';
+            data.property[id]['positionX'] = '0';
+            data.property[id]['positionY'] = '0';
+            object.setSession('jsonData', JSON.stringify(data));
+            object.showDispCodeByNav(data.property[id], id);
+             return;
+        }
+         return;
+     }
+    if(type === 'background'){
+        var template = '';
+        if(px == 'keyword'){
+            template += `<div><label>horizontal - x</label><select data-type="positionX" data-unit="word" data-id="background">${object.add({left:"left",center: "center",right: "right"})}</select></div><div><label>vertical - y</label><select data-type="positionY" data-id="background">${object.add({top:"top",center: "center",bottom: "bottom"})}</select></div>`;
+             data.property[type]['positionX'] = 'left';
+            data.property[type]['positionY'] = 'top';
+        }
+        if(px == 'percent'){
+            template += `<div><label>horizontal - x</label><input type="text" size="3" value="0" data-type="positionX" data-unit="percent" data-id="background"> %</div><div><label>vertical - y</label><input type="text" size="3" value="0" data-type="positionY" data-unit="percent" data-id="background"> %</div>`;
+            data.property[type]['positionX'] = '0';
+            data.property[type]['positionY'] = '0';
+        }
+        if(px == 'pixel'){
+            template += `<div><label>horizontal - x</label><input type="text" size="3" value="0" data-type="positionX" data-unit="pixel" data-id="background"> px</div><div><label>vertical - y</label><input type="text" size="3" value="0" data-type="positionY" data-unit="pixel" data-id="background"> px</div>`;
+            data.property[type]['positionX'] = '0';
+            data.property[type]['positionY'] = '0';
+        }
+        $('#positionChanges').html(template);
+        object.setSession('jsonData', JSON.stringify(data));
+        object.showDispCodeByNav(data.property[type], type);
+        return;
+    }
+    if(unit == 'percent'){
+        data.property[id][type] = px + '%';
+        object.setSession('jsonData', JSON.stringify(data));
+        object.showDispCodeByNav(data.property[id], id);
+        return;
+    }
+    if(unit == 'pixel'){
+        data.property[id][type] = px + 'px';
+        object.setSession('jsonData', JSON.stringify(data));
+        object.showDispCodeByNav(data.property[id], id);
+        return;
+    }
+    if(id == 'filter'){
+        if($(this).is(':checked')){
+            $(this).siblings('input').removeAttr('disabled');
+        }
+        else{
+            $(this).siblings('input.values').prop('disabled', true);
+        }
+    }
+    data.property[id][type] = px;
+    object.setSession('jsonData', JSON.stringify(data));
+    object.showDispCodeByNav(data.property[id], id);
+});
+$('body').on('change', 'select', function(){
+    var type = $(this).data('type');
+    var id = $(this).data('id');
+    var select = $(this).val();
+    var dataId = $(this).parents('.shadow').data('id');
+    var data = JSON.parse(object.getSession('jsonData'));
+    if(id == "borderTop" || id == "borderRight"  || id == "borderBottom" || id == "borderLeft"){
+        data.property['Individual'][id][type] = select;
+        object.setSession('jsonData', JSON.stringify(data));
+        object.showDispCodeByNav(data.property['Individual'], id);
+        return false;
+    }
+    if(id == "boxShadow"){
+        if(select == "outset"){
+            select = "";
+        }
+        data.property['shadows'][id][dataId][type] = select;
+        object.setSession('jsonData', JSON.stringify(data));
+        object.showDispCodeByNav(data.property['shadows'][id], id);
+        return false;
+    }
+    
+    data.property[id][type] = select;
+    object.setSession('jsonData', JSON.stringify(data));
+    object.showDispCodeByNav(data.property[id], id);
+});
+    
+$('body').on('click', '#shadowmore', function(){
+    var obj = {};
+    var data = JSON.parse(object.getSession('jsonData'));
+    obj.shadowType = '';
+    obj.xPos = '-50';
+    obj.yPos = '-50';
+    obj.shadowFade = '10';
+    obj.shadowSpread = '0';
+    obj.shadowColor = '#ff0000';
+    var key = Object.keys(data.property.shadows.boxShadow).length;
+    data.property.shadows.boxShadow[key] = obj;
+    object.setSession('jsonData', JSON.stringify(data));
+    object.showTemplateByNav('boxShadow');
+});
+$('body').on('click', '#remove', function(){
+    var type = $(this).data('id');
+    var data = JSON.parse(object.getSession('jsonData'));
+    $('[data-id='+type+']').remove();
+    data.property.shadows.boxShadow.splice(type, 1);
+    object.setSession('jsonData', JSON.stringify(data));
+    object.showTemplateByNav('boxShadow');
+});
+
+});
+</script>
+</body>
+</html>
